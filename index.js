@@ -3,7 +3,6 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser';
-
 import authRoutes from './routes/auth.js';
 import expenseRoutes from './routes/expenses.js';
 import houseRoutes from './routes/house.js';
@@ -42,6 +41,7 @@ mongoose.connect(process.env.MONGO_URI, {
         });
     })
     .catch((err) => console.error('Errore connessione MongoDB:', err));
+
 
 
 
