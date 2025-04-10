@@ -12,14 +12,9 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-const allowedOrigins = [
-    'http://localhost:3000',
-    'https://v0-new-project-fzgm8gods4k-tvm4nb7wu-gianvito-fortes-projects.vercel.app'
-];
-
 app.use(cors({
     origin: function (origin, callback) {
-        if (!origin || allowedOrigins.includes(origin)) {
+        if (!origin || origin.endsWith('.vercel.app') || origin === 'http://localhost:3000') {
             callback(null, true);
         } else {
             callback(new Error('Not allowed by CORS'));
@@ -45,6 +40,7 @@ mongoose.connect(process.env.MONGO_URI, {
         });
     })
     .catch((err) => console.error('Errore connessione MongoDB:', err));
+
 
 
 
