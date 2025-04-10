@@ -12,7 +12,22 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
+const allowedOrigins = [
+    'http://localhost:3000',
+    'https://v0-new-project-fzgm8gods4k-tvm4nb7wu-gianvito-fortes-projects.vercel.app'
+];
+
+app.use(cors({
+    origin: function (origin, callback) {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    credentials: true
+}));
+
 app.use(express.json());
 app.use(cookieParser());
 
@@ -20,7 +35,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/expenses', expenseRoutes);
 app.use('/api/house', houseRoutes);
 
-mongoose.connect("mongodb+srv://gianvito_forte:Stefania1979%3F@shared.4lttqqa.mongodb.net/shared?retryWrites=true&w=majority&appName=shared", {
+mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 })
@@ -30,5 +45,7 @@ mongoose.connect("mongodb+srv://gianvito_forte:Stefania1979%3F@shared.4lttqqa.mo
         });
     })
     .catch((err) => console.error('Errore connessione MongoDB:', err));
+
+
 
 

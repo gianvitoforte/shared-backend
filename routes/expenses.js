@@ -5,8 +5,12 @@ import verifyToken from '../middleware/verifyToken.js';
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-  const expenses = await Expense.find(req.query);
-  res.json(expenses);
+  try {
+    const expenses = await Expense.find(req.query);
+    res.json(expenses);
+  } catch (error) {
+    res.status(500).json({ error: 'Errore nel recupero delle spese' });
+  }
 });
 
 router.post('/', verifyToken, async (req, res) => {
@@ -24,7 +28,7 @@ router.post('/', verifyToken, async (req, res) => {
     const expense = new Expense(data);
     await expense.save();
     res.sendStatus(201);
-  } catch {
+  } catch (error) {
     res.status(500).json({ error: 'Errore nella creazione della spesa' });
   }
 });
@@ -32,11 +36,17 @@ router.post('/', verifyToken, async (req, res) => {
 router.patch('/:id', async (req, res) => {
   const { id } = req.params;
   const { paidByEach } = req.body;
-  await Expense.findByIdAndUpdate(id, { paidByEach });
-  res.sendStatus(200);
+
+  try {
+    await Expense.findByIdAndUpdate(id, { paidByEach });
+    res.sendStatus(200);
+  } catch (error) {
+    res.status(500).json({ error: 'Errore nell\'aggiornamento della spesa' });
+  }
 });
 
 export default router;
+
 
 
 
