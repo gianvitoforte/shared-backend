@@ -14,11 +14,11 @@ const PORT = process.env.PORT || 5000;
 app.use(cors({
     origin: [
         'http://localhost:3000',
-        'https://shared-frontend.vercel.app'
+        'https://shared-frontend.vercel.app',
+        'https://shared-frontend-qurqn0y23-gianvito-fortes-projects.vercel.app'
     ],
     credentials: true
 }));
-
 app.use(express.json());
 app.use(cookieParser());
 app.use('/api/auth', authRoutes);
