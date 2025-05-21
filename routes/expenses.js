@@ -5,8 +5,14 @@ import verifyToken from '../middleware/verifyToken.js';
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-  const expenses = await Expense.find(req.query);
-  res.json(expenses);
+  const { houseName } = req.query;
+
+  try {
+    const expenses = await Expense.find({ houseName: houseName });
+    res.json(expenses);
+  } catch (error) {
+    res.status(500).json({ error: 'Errore nel recupero delle spese' });
+  }
 });
 
 router.post('/', verifyToken, async (req, res) => {
@@ -37,6 +43,7 @@ router.patch('/:id', async (req, res) => {
 });
 
 export default router;
+
 
 
 

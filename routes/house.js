@@ -50,6 +50,28 @@ router.get('/members', async (req, res) => {
     res.json(house.members);
 });
 
+router.post('/leave', async (req, res) => {
+    try {
+        const { name, email } = req.body;
+        if (!name || !email) return res.status(400).json({ error: 'Dati mancanti' });
+
+        const house = await House.findOne({ name });
+        if (!house) return res.status(404).json({ error: 'Gruppo non trovato' });
+
+        house.members = house.members.filter(member => member !== email);
+        await house.save();
+
+        if (house.members.length === 0) {
+            await House.deleteOne({ name });
+        }
+
+        res.status(200).json({ message: 'Abbandono del gruppo riuscito' });
+    } catch {
+        res.status(500).json({ error: 'Errore interno del server' });
+    }
+});
+
 export default router;
+
 
 
