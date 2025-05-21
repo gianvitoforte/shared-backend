@@ -11,6 +11,7 @@ import houseRoutes from './routes/house.js';
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
+
 app.use(cors({
     origin: [
         'http://localhost:3000',
@@ -21,8 +22,21 @@ app.use(cors({
     ],
     credentials: true
 }));
+
+app.options('*', cors({
+    origin: [
+        'http://localhost:3000',
+        'https://shared-frontend.vercel.app',
+        'https://shared-frontend-gianvito-fortes-projects.vercel.app',
+        'https://shared-frontend-git-main-gianvito-fortes-projects.vercel.app',
+        'https://shared-frontend-hgodlncng-gianvito-fortes-projects.vercel.app'
+    ],
+    credentials: true
+}));
+
 app.use(express.json());
 app.use(cookieParser());
+
 app.use('/api/auth', authRoutes);
 app.use('/api/expenses', expenseRoutes);
 app.use('/api/house', houseRoutes);
@@ -37,5 +51,6 @@ mongoose.connect("mongodb+srv://gianvito_forte:Stefania1979%3F@shared.4lttqqa.mo
         });
     })
     .catch((err) => console.error('Errore connessione MongoDB:', err));
+
 
 
