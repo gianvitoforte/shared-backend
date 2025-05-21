@@ -15,7 +15,9 @@ app.use(cors({
     origin: [
         'http://localhost:3000',
         'https://shared-frontend.vercel.app',
-        'https://shared-frontend-qurqn0y23-gianvito-fortes-projects.vercel.app'
+        'https://shared-frontend-gianvito-fortes-projects.vercel.app',
+        'https://shared-frontend-git-main-gianvito-fortes-projects.vercel.app',
+        'https://shared-frontend-nci4gup9f-gianvito-fortes-projects.vercel.app'
     ],
     credentials: true
 }));
